@@ -1,7 +1,7 @@
-USES := libglog
+USES := libglog tidy
 
-LIBS := tidy
-uri_STEMS := tidy
+LIBS := tidyxx
+tidyxx_STEMS := tidy
 
 TESTS := tidy-test
 

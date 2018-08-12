@@ -1,3 +1,3 @@
 #include "tidy.hpp"
 
-int main() {}
+int main() { tidy::doc doc{}; }
