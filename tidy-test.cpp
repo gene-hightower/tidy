@@ -33,6 +33,8 @@ int main()
 
     std::cout << "\nAnd here is the result:\n\n" << output;
   }
-  else
+  else {
     std::cerr << "A severe error (" << rc << ") occurred.\n";
+    return 1;
+  }
 }

@@ -6,6 +6,8 @@
 #include <tidy.h>
 #include <tidybuffio.h>
 
+#include <glog/logging.h>
+
 namespace tidy {
 
 class doc;
@@ -23,8 +25,6 @@ public:
   }
   ~buffer() { tidyBufFree(&buf_); }
 
-  friend doc;
-
 private:
   TidyBuffer buf_;
 
@@ -32,6 +32,8 @@ private:
   {
     return os << buf.buf_.bp;
   }
+
+  friend doc;
 };
 
 class doc {
@@ -42,24 +44,23 @@ public:
   doc& operator=(doc&&) = delete;
 
   doc()
-    : doc_{tidyCreate()}
+    : doc_{CHECK_NOTNULL(tidyCreate())}
   {
   }
   ~doc() { tidyRelease(doc_); }
 
-  bool opt_set_bool(TidyOptionId id, bool val)
+  bool opt_set_bool(TidyOptionId id, bool val) const
   {
     return yes == tidyOptSetBool(doc_, id, val ? yes : no);
   }
 
-  int set_error_buffer(buffer& err)
-  {
-    return tidySetErrorBuffer(doc_, &err.buf_);
-  }
-  int parse_string(char const* input) { return tidyParseString(doc_, input); }
-  int clean_and_repair() { return tidyCleanAndRepair(doc_); }
-  int run_diagnostics() { return tidyRunDiagnostics(doc_); }
-  int save_buffer(buffer& output) { return tidySaveBuffer(doc_, &output.buf_); }
+  // clang-format off
+  int set_error_buffer(buffer& err)   const { return tidySetErrorBuffer(doc_, &err.buf_); }
+  int parse_string(char const* input) const { return tidyParseString   (doc_, input); }
+  int clean_and_repair()              const { return tidyCleanAndRepair(doc_); }
+  int run_diagnostics()               const { return tidyRunDiagnostics(doc_); }
+  int save_buffer(buffer& output)     const { return tidySaveBuffer    (doc_, &output.buf_); }
+  // clang-format on
 
 private:
   TidyDoc doc_;

@@ -1,6 +1,6 @@
 USES := libglog tidy
 
-LIBS := tidyxx
+DYLIBS := tidyxx
 tidyxx_STEMS := tidy
 
 TESTS := tidy-test

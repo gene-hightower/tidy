@@ -1,2 +1,2 @@
 # tidy
-C++ wrapper for libtidy
+C++ (zero overhead) wrapper for libtidy
