@@ -42,7 +42,7 @@ public:
   doc& operator=(doc&&) = delete;
 
   doc()
-    : doc_{tidyCreate();}
+    : doc_{tidyCreate()}
   {
   }
   ~doc() { tidyRelease(doc_); }
