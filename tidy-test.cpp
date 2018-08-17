@@ -41,9 +41,7 @@ void dumpNode(tidy::doc& tdoc, TidyNode tnod, int indent)
     if (("a"s == name) || ("link"s == name) || ("script"s == name)) {
 
       printf("\%*.*sNode:  \%s\n", indent, indent, " ", name);
-      {
-        printf("\%*.*sName:  \%s\n", indent, indent, " ", n ? n : "nullptr");
-      }
+      printf("\%*.*sName:  \%s\n", indent, indent, " ", n ? n : "nullptr");
 
       auto value = tdoc.node_get_value(child);
       if (value) {
