@@ -6,6 +6,7 @@
 
 #include <tidy.h>
 #include <tidybuffio.h>
+#include <tidyenum.h>
 
 #include <glog/logging.h>
 
@@ -15,6 +16,7 @@ class doc;
 
 class buffer {
 public:
+  // no copy
   buffer(buffer const&) = delete;
   buffer& operator=(buffer const&) = delete;
 
@@ -35,7 +37,7 @@ public:
     : buffer_{0}
   {
   }
-  ~buffer()
+  ~buffer() noexcept
   {
     if (buffer_.bp)
       tidyBufFree(&buffer_);
@@ -119,8 +121,13 @@ private:
 
 TidyNode get_child(TidyNode n) { return tidyGetChild(n); }
 TidyNode get_next(TidyNode n) { return tidyGetNext(n); }
+
 char const* node_get_name(TidyNode n) { return tidyNodeGetName(n); }
+
 TidyNodeType node_get_type(TidyNode n) { return tidyNodeGetType(n); }
+
+TidyAttr attr_first(TidyNode n) { return tidyAttrFirst(n); }
+TidyAttr attr_next(TidyAttr a) { return tidyAttrNext(a); }
 
 } // namespace tidy
 
